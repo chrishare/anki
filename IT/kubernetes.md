@@ -91,3 +91,21 @@ Container Runtime - e.g. Docker. The container tech that manages the kernel, nam
 Kubelet - The bridge to the control plan / master components. Receives manifests of workload requirements from the control plane, and is tasked with enforcing these on the local node.
 kube-proxy - Proxies requests to the correct container on the local node. Manages some network isolation and load balancing too.
 
+## Kubernetes Abstractions
+
+Abstractions are:
+
+%
+
+Pods - A collection of tightly coupled containers. Often, there is just one container, or a main container and a helper container that must run alongside it. Rarely handled manually or directly, in favor of higher abstractions.
+Replication Controller - Pod template with control templates and logic that knows how to scale up or down pods to match specifications.
+Replication Sets - Similar to replication controller, but more advanced and intended to replace replication controllers.
+Deployments - An abstraction used directly by users to specify workloads and setups. Uses replication sets to manage deployed container counts, and so on.
+Stateful Sets - Specialized pod controllers for when deployments must be ordered, or when persistence is required, or when stable networking is needed.
+Daemon Sets - Specialized pod controllers that typically manage utility tasks, such as logging servers. Special in that they can be bound to very specific machines - i.e. one per node, etc.
+Jobs and Cron Jobs - Just like cron jobs, but implemented on the container substrate so they can be server agnostic.
+Services - A basic load balancer for related pods, so that there's a single endpoint for consumers that is stable. For instance, an API endpoint would be a service, rather than the (changing) container direct endpoints.
+Volumes - An abstraction that allows pods in a cluster to share the same file server without complex implementation-specific file mounting work. Destroyed after the pod is destroyed, but persists beyond individual containers being destroyed.
+Persistent Volumes - Like volumes, but truly persistent. Can guard against Kubernetes failures, such as node issues. The storage is not typically managed by Kubernetes, but something like NFS.
+Label - A semantic tag that marks objects as part of a group, such as app=customer-nodejs. This tag can then be used as a selector in the declarative documents that spec the cluster layout, and in API calls, etc.
+Annotations - Like labels, but usually rich an unstructructured, not used for selection. Things like documentation and notes.
