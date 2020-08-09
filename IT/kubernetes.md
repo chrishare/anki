@@ -58,3 +58,36 @@ A quick summary of the Twelve Factors are:
 10. Dev/prod parity: Your testing, staging, and production environments should match closely and be kept in sync. Differences between environments are opportunities for incompatibilities and untested configurations to appear.
 11. Logs: Applications should stream logs to standard output so external services can decide how to best handle them.
 12. Admin processes: One-off administration processes should be run against specific releases and shipped with the main process code.
+
+## Kubernetes Overview
+
+Overview
+
+%
+
+Kubernetes, at its basic level, is a system for running and coordinating containerized applications across a cluster of machines. It is a platform designed to completely manage the life cycle of containerized applications and services using methods that provide predictability, scalability, and high availability. Kubernetes is all about abstracting workloads away from specific machines, so any node can run any workload provided requirements are met.
+
+## Kubernetes Master Components
+
+Components include:
+
+%
+
+These are master components, the'brain' of the kubernetes cluster. Commonly called the control plane.
+etcd - Lightweight distributed key/value store that stores config data and exposes a rest api.
+kube-apiserver - Interfaces with etcd to ensure the config data is honored. Provides a rest API. Users can interact with kube-apiserver to enquire and update config data, through kubectl etc.
+kube-controller-manager - Manages various controllers that are responsible for things like replica counts being correct, ingress, and so on.
+kube-scheduler - This component maps workloads to containers, based on CPU and memory requirements
+cloud-controller-manager - Interfaces with clouds like AWS to utilize proprietary features, and also manage workloads based on Cloud requirements.
+
+## Kubernetes Node Components
+
+Components include:
+
+%
+
+These are node components, which run on each node that can have pods and containers deployed.
+Container Runtime - e.g. Docker. The container tech that manages the kernel, namespace, etc, that lets workloads run on the node with separation. Other options include runc and rkt. These implement a OCI (Open Container Initiative) specs that say how containers must work.
+Kubelet - The bridge to the control plan / master components. Receives manifests of workload requirements from the control plane, and is tasked with enforcing these on the local node.
+kube-proxy - Proxies requests to the correct container on the local node. Manages some network isolation and load balancing too.
+
