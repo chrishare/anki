@@ -24,3 +24,16 @@ The datasets need to be chosen randomly, IID (independently and identically dist
 
 Ratios between these 3 sets vary, depending on how much data you have. Something like 80, 10, 10 is good. There are also techniques that allow random splits to be used between train and validation, such as Cross Validation.
 
+## Model / Problem Type
+
+There are different problem types that ML can address. Can you name some of them?
+
+%
+
+Regression - Maps inputs into a continuous output numeric value; e.g. Given size of house, number of rooms, lattitude and longitude, output the estimated house price as 350000. https://d2l.ai/chapter_introduction/index.html#regression 
+
+Classificiation - Map inputs into one of many classes usually with a probability estimate for each; e.g. Given rgb pixel values (an image), output the confidence that the image contains a dog or a cat. https://d2l.ai/chapter_introduction/index.html#classification
+
+Multi-class classification or Tagging - Like classification, but classes are not mutually-exclusive. e.g. Given rgb pixel values (an image), output the confidence that the image contains a dog, that it contains a cat, that it contains a horse and so on. Another example - tagging an article with "Machine Learning", "Computer Science" and "Ethics" - these aren't mutually exclusive. https://d2l.ai/chapter_introduction/index.html#tagging
+
+
