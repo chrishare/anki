@@ -42,7 +42,7 @@ Recommender Systems - Similar to Search and Rank, but usually related to an indi
 
 Sequence Learning - Rather than looking as a fixed number of inputs, look at a dynamic-length sequence. The classic example is in NLP (Natural Language Processing), but other examples are video frame process - earlier frames give context (motion, etc) - and time series data, like medical events and stock market values over time. https://d2l.ai/chapter_introduction/index.html#sequence-learning
 
-### What is Unsupervised Learning?
+## What is Unsupervised Learning?
 
 What is unsupervised learning? What does supervision really mean?
 
@@ -55,3 +55,16 @@ In these situations, unsupervised learning approaches can be used. There are ver
 Sometimes, a combination of unsupervised (e.g. pre-training) and supervised fine-tuning learning makes sense - where there's a large dataset but a small subset might be labelled.
 
 More recently, self-supervised has been a term used to describe the same thing but make it clear that there is signal in the input - it's just the training process / model that has to find the signal, as opposed to produce signal where there is none.
+
+## Reinforcement Learning
+
+Whereas supervised learning is sometimes called offline learning, because it happen outside of an active environment, reinforcement learning is one way in which an agent can act and learn in an environment, and even drive it's own learning process. What is Reinforcement Learning conceptually?
+
+%
+
+https://d2l.ai/chapter_introduction/index.html#reinforcement-learning
+
+RL sees an agent interacting with an environment over time, making observations and taking actions in order to maximise the reward it gets from the environment. To do so, it will develop a policy giving maximal reward, and possibly a model of the world. The RL framework is very general - supervised problems can be cast as reinforcement learning problems - but RL can tackle problems that classical supervised learning cannot, particularly since there is not always a clear relationship between actions and reward (there can be delay, obfuscation, and credit assignment complications). 
+
+Famous example of Deep Learning applied to RL (which is now very popular, called DRL) include DeepMind's Atari game playing agent (Q-Agent) that plays games based on input coming directly from pixels, and not game state). 
+Reinforcement Learning is a framework through which 
