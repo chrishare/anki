@@ -3,7 +3,9 @@
 Terms include:
 
 %
+
 Generator - Responsible for spawning instances from a distribution. Instances are called fake because they are generated.
+
 Disriminator - Responsible for identifying the generated/fake instances from those in the real distribution.
 
 ## How GANs work
