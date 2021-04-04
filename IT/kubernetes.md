@@ -74,11 +74,11 @@ Components include:
 %
 
 These are master components, the'brain' of the kubernetes cluster. Commonly called the control plane.
-etcd - Lightweight distributed key/value store that stores config data and exposes a rest api.
-kube-apiserver - Interfaces with etcd to ensure the config data is honored. Provides a rest API. Users can interact with kube-apiserver to enquire and update config data, through kubectl etc.
-kube-controller-manager - Manages various controllers that are responsible for things like replica counts being correct, ingress, and so on.
-kube-scheduler - This component maps workloads to containers, based on CPU and memory requirements
-cloud-controller-manager - Interfaces with clouds like AWS to utilize proprietary features, and also manage workloads based on Cloud requirements.
+1. etcd - Lightweight distributed key/value store that stores config data and exposes a rest api.
+2. kube-apiserver - Interfaces with etcd to ensure the config data is honored. Provides a rest API. Users can interact with kube-apiserver to enquire and update config data, through kubectl etc.
+3. kube-controller-manager - Manages various controllers that are responsible for things like replica counts being correct, ingress, and so on.
+4. kube-scheduler - This component maps workloads to containers, based on CPU and memory requirements
+5. cloud-controller-manager - Interfaces with clouds like AWS to utilize proprietary features, and also manage workloads based on Cloud requirements.
 
 ## Kubernetes Node Components
 
@@ -87,9 +87,9 @@ Components include:
 %
 
 These are node components, which run on each node that can have pods and containers deployed.
-Container Runtime - e.g. Docker. The container tech that manages the kernel, namespace, etc, that lets workloads run on the node with separation. Other options include runc and rkt. These implement a OCI (Open Container Initiative) specs that say how containers must work.
-Kubelet - The bridge to the control plan / master components. Receives manifests of workload requirements from the control plane, and is tasked with enforcing these on the local node.
-kube-proxy - Proxies requests to the correct container on the local node. Manages some network isolation and load balancing too.
+1. Container Runtime - e.g. Docker. The container tech that manages the kernel, namespace, etc, that lets workloads run on the node with separation. Other options include CRI-O and containerd. These implement a OCI (Open Container Initiative) specs that say how containers must work.
+2. Kubelet - The bridge to the control plan / master components. Receives manifests of workload requirements from the control plane, and is tasked with enforcing these on the local node.
+3. kube-proxy - Proxies requests to the correct container on the local node. Manages some network isolation and load balancing too.
 
 ## Kubernetes Abstractions
 
@@ -98,14 +98,25 @@ Abstractions are:
 %
 
 Pods - A collection of tightly coupled containers. Often, there is just one container, or a main container and a helper container that must run alongside it. Rarely handled manually or directly, in favor of higher abstractions.
+
 Replication Controller - Pod template with control templates and logic that knows how to scale up or down pods to match specifications.
+
 Replication Sets - Similar to replication controller, but more advanced and intended to replace replication controllers.
-Deployments - An abstraction used directly by users to specify workloads and setups. Uses replication sets to manage deployed container counts, and so on.
-Stateful Sets - Specialized pod controllers for when deployments must be ordered, or when persistence is required, or when stable networking is needed.
+
+Deployments - An abstraction used directly by users to specify workloads and setups - abstracts repica sets of pods/containers. Uses replication sets to manage deployed container counts, and so on.
+
+Stateful Sets - Specialized pod controllers for when deployments must be ordered, or when persistence is required, or when stable networking is needed. Sometimes used for databases, but databases are often hsoted outside of K8S because K8S does not manage storage and replciation of data updates as first-class citizens.
+
 Daemon Sets - Specialized pod controllers that typically manage utility tasks, such as logging servers. Special in that they can be bound to very specific machines - i.e. one per node, etc.
+
 Jobs and Cron Jobs - Just like cron jobs, but implemented on the container substrate so they can be server agnostic.
-Services - A basic load balancer for related pods, so that there's a single endpoint for consumers that is stable. For instance, an API endpoint would be a service, rather than the (changing) container direct endpoints.
-Volumes - An abstraction that allows pods in a cluster to share the same file server without complex implementation-specific file mounting work. Destroyed after the pod is destroyed, but persists beyond individual containers being destroyed.
-Persistent Volumes - Like volumes, but truly persistent. Can guard against Kubernetes failures, such as node issues. The storage is not typically managed by Kubernetes, but something like NFS.
+
+Services - A basic load balancer for related pods, so that there's a single endpoint for consumers that is stable. For instance, an API endpoint would be a service, rather than the (changing) container direct endpoints. There are different types - clusterIP for internal-only load balanced abstractions of multiple workers, NodePort for exposing a specific port of each worker node, and LoadBalanced (which is a bad name, because ClusterIp is load balanced too) which is for externally accessible endpoints that come in via an ingress process/controller.
+
+Volumes - An abstraction that allows pods in a cluster to share the same local filesystem without complex implementation-specific file mounting work. Destroyed after the pod is destroyed, but persists beyond individual containers being destroyed.
+
+Persistent Volumes - Like volumes, but truly persistent. Can guard against Kubernetes failures, such as node issues. The storage is not typically managed by Kubernetes, but something like NFS. Persistenace volume claims allow users to request a portion of a persistent volume. There is also an abstraction called the StorageClass which allows more dynamic provisioning of persistence that statically creating PVs.
+
 Label - A semantic tag that marks objects as part of a group, such as app=customer-nodejs. This tag can then be used as a selector in the declarative documents that spec the cluster layout, and in API calls, etc.
+
 Annotations - Like labels, but usually rich an unstructructured, not used for selection. Things like documentation and notes.
